@@ -1,0 +1,1 @@
+let base = new PIXI.BaseTexture('../img//curcle//curcleSheet.png')
