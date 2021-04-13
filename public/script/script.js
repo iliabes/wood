@@ -26,9 +26,9 @@ let world = [
   [],
   [],
   [],
-  ['','','g','','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','t','t','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g'],
-  ['','g','g','','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','t','t','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g'],
-  ['g','g','g','','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','t','t','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g'],
+  ['','','g','','','','g','g','g','','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','t','t','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g'],
+  ['','g','g','','','','g','g','g','g','','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','t','t','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g'],
+  ['g','g','g','','','','g','g','g','g','','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','t','t','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g'],
   ['g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','t','t','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g'],
   ['g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','t','t','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g']
 ]
@@ -38,7 +38,7 @@ let trees = []
 
 let player = new PIXI.Graphics()
 player.x =globalX + 100;
-player.y =globalY + 100;
+player.y =globalY + 200;
 player.lineStyle(10,0x00ff00)
 player.beginFill(0x66CCFF);
 player.drawRect(100,100,10,10)
@@ -49,9 +49,12 @@ app.stage.addChild(player)
 //constructor world
 function create(){
   for(let i = 0;i<world.length; i++){
-    world[i].forEach((elem,indexElem) => {
-      contrWorld(elem,i,indexElem)
-    })
+    for(let z = 0;z<10; z++){
+      contrWorld(world[i][z],i,z)
+    }
+    // world[i].forEach((elem,indexElem) => {
+    //   contrWorld(elem,i,indexElem)
+    // })
   }
 }create()
 
@@ -161,6 +164,19 @@ function ShiftLeft(){
     elem.x = elem.x - 10
   })
 }
+
+// function collader(object,action){
+//   console.log('collaider')
+//   let playerWidth =  player.width
+//   let playerHeight =  player.height
+//   object.forEach((object)=>{
+//     console.log((object.x+object.width/2),(player.x + playerWidth/2))
+//     if((player.x + playerWidth/2) >= (object.x - object.width/2) && (player.x - playerWidth/2) <= (object.x+object.width/2) &&(player.y - player.height/2 <=object.y + object.height/2  ) && (player.y + player.height/2 >=object.y - object.height/2  )   ){
+//       console.log('collaid')}
+//     })
+//    }
+ 
+// setInterval(()=>{collader(grounds)},1000)
 
 
 container.addChild(player)
