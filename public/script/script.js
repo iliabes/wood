@@ -2,7 +2,8 @@ const cellWidth = 50;
 const cellHeight = 50
 let globalX = 0;
 let globalY = 0;
-
+let visibleBlockNumber = 10;
+let leftBlock = 1;
 
 let app = new PIXI.Application({
   width: 500,
@@ -26,11 +27,7 @@ let world = [
   [],
   [],
   [],
-  ['','','g','','','','g','g','g','','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','t','t','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g'],
-  ['','g','g','','','','g','g','g','g','','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','t','t','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g'],
-  ['g','g','g','','','','g','g','g','g','','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','t','t','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g'],
-  ['g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','t','t','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g'],
-  ['g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','t','t','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g']
+  ['g','','g','g','','g','g','g','','g','g','g','g','','g','g','g','g','g','g','g','g','g']
 ]
 
 let grounds = []
@@ -49,7 +46,7 @@ app.stage.addChild(player)
 //constructor world
 function create(){
   for(let i = 0;i<world.length; i++){
-    for(let z = 0;z<10; z++){
+    for(let z = 0;z<visibleBlockNumber; z++){
       contrWorld(world[i][z],i,z)
     }
     // world[i].forEach((elem,indexElem) => {
@@ -65,7 +62,7 @@ function contrWorld(elem,worldLayer,indexElem){
     createTree(globalX + indexElem * cellWidth,globalY + worldLayer * cellHeight)
     break
     case'n':
-    createNone(globalX + indexElem * cellWidth,globalY + worldLayer * cellHeight)
+   
     break
     case'g':
     createGround(globalX + indexElem * cellWidth,globalY + worldLayer * cellHeight)
@@ -73,19 +70,7 @@ function contrWorld(elem,worldLayer,indexElem){
   }
 }contrWorld()
 
-function createNone(x,y){
-  let text = new PIXI.Text('',{fontFamily : 'Arial', fontSize: 24, fill : 0xff1010, align : 'center'});
-  let none = new PIXI.Graphics()
-  none.x = x;
-  none.y = y;
-  none.lineStyle(1,0x00ff00)
-  none.drawRect(0,0,cellWidth,cellHeight)
-  text.x = none.width/2 - text.width/2;
-  text.y = none.height/2 - text.height/2;
-  none.endFill()
-  app.stage.addChild(none)
-  none.addChild(text)
-}
+
 
 function createGround(x,y){
   let text = new PIXI.Text('G',{fontFamily : 'Arial', fontSize: 24, fill : 0xff1010, align : 'center'});
@@ -119,26 +104,20 @@ function createTree(x,y){
 
 //constructor world
 
-let massOnKey = {
-  "a":false,
-  "w":false,
-  "d":false,
-  "s":false
-}
 
 function movePlayer(e) {
   switch (e.key) {
     case "a":
-      massOnKey['a'] = true
       // player.x = player.x - 15;
-      globalX = globalX - 15
+      globalX = globalX - 10
       ShiftRight()
+
       break;
     case "d":
-      massOnKey['d'] = true
-      globalX = globalX + 15
+      globalX = globalX + 10
       ShiftLeft()
       // player.x = player.x + 15;
+      console.log(globalX)
       break;
     case "s":
       break;
@@ -165,6 +144,51 @@ function ShiftLeft(){
   })
 }
 
+function addBlockRight(){
+  if(globalX/50 >= leftBlock){
+    console.log(globalX)
+    console.log(leftBlock)
+    console.log('a')
+    leftBlock += 1;
+  }
+  if(globalX/50 <= leftBlock){
+    console.log(globalX)
+    console.log(leftBlock)
+    console.log('a')
+    leftBlock -= 1;
+  }
+
+}
+setInterval(()=>{addBlockRight()},100)
+
+container.addChild(player)
+window.addEventListener("keydown", movePlayer)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// let massOnKey = {
+//   "a":false,
+//   "w":false,
+//   "d":false,
+//   "s":false
+// }
+
+
 // function collader(object,action){
 //   console.log('collaider')
 //   let playerWidth =  player.width
@@ -179,9 +203,15 @@ function ShiftLeft(){
 // setInterval(()=>{collader(grounds)},1000)
 
 
-container.addChild(player)
-window.addEventListener("keydown", movePlayer)
-
-
-
-
+// let world = [
+//   [],
+//   [],
+//   [],
+//   [],
+//   [],
+//   ['','','g','','','','g','g','g','','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','t','t','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g'],
+//   ['','g','g','','','','g','g','g','g','','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','t','t','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g'],
+//   ['g','g','g','','','','g','g','g','g','','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','t','t','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g'],
+//   ['g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','t','t','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g'],
+//   ['g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','t','t','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g']
+// ]
